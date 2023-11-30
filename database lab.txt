@@ -1,0 +1,58 @@
+#DDL
+create database Netflix;
+
+create table user(
+    id int primary key,
+    password varchar(20) not null,
+    phone_number varchar(10),
+    name varchar(15)not null,
+    email varchar(15) not null unique
+);
+
+
+create table subscription(
+    subscription int primary key,
+    user_id int,
+    status varchar(8) check ( status='active' or status = 'inactive'),
+    credit_card int unique not null,
+    creation_date datetime,
+    foreign key(user_id) references user(id)
+);
+
+create table profiles(
+    id int primary key,
+    user_id int,
+    name varchar(20) not null,
+    foreign key (user_id) references user(id)
+);
+
+create table watchlist
+(
+    id  int primary key,
+    profile_id int,
+    video_name varchar(15),
+    duration  int,
+    foreign key (profile_id) references profiles(id)
+);
+
+#DML
+
+insert into user values (123,'bader12','0555443950','bader','bader@email.com');
+insert into subscription values (123,2213,'inactive',2134566777,NOW());
+select * from user;
+select * from subscription;
+
+insert into profiles values (1,123,'bader');
+insert into profiles values (2,123,'saleh');
+insert into profiles values (3,123,'sarah');
+
+select * from profiles;
+insert into watchlist values (10,2,'The titanic',120);
+insert into watchlist values (11,2,'john wick',120);
+
+select * from watchlist;
+
+delete from watchlist where id =10;
+update watchlist set  video_name = 'john wick 2' where id = 11;
+
+truncate watchlist;
